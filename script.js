@@ -172,4 +172,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
+// KPI number counter animation
+const kpiNumbers = document.querySelectorAll(".kpi b");
+
+if (kpiNumbers.length) {
+  const animateCounter = (element) => {
+    const target = Number(element.dataset.count);
+    const suffix = element.dataset.suffix || "";
+    const duration = 2000;
+    const startTime = performance.now();
+
+    function updateCounter(currentTime) {
+      const progress = Math.min(
+        (currentTime - startTime) / duration,
+        1
+      );
+
+      const value = Math.floor(target * progress);
+
+      element.textContent = value.toLocaleString() + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      } else {
+        element.textContent = target.toLocaleString() + suffix;
+      }
+    }
+
+    requestAnimationFrame(updateCounter);
+  };
+
+const kpiObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.5
+  });
+
+  kpiNumbers.forEach((number) => {
+    kpiObserver.observe(number);
+  });
+}
+
+
 });
