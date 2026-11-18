@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
           timer = window.setInterval(() => {
             showSlide(current + 1);
-          }, 5500);
+          }, 3000);
         }
       }
 
