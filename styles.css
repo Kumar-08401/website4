@@ -149,28 +149,213 @@ h2 { margin:18px 0 0; font-size:clamp(34px,5vw,51px); line-height:1.03; letter-s
 
 
 /* Hero slider */
+
+/* ==============================
+   HERO IMAGE SLIDER
+================================ */
+
 .hslider {
-  background: transparent;
+  position: relative;
+  display: block;
+  min-height: 420px;
+  height: min(62vh, 520px);
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: #222;
 }
 
-.hs {
-  background-color: transparent;
+/* Individual slides */
+.hslider .hs {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 110px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.6s ease,
+    visibility 0.6s ease;
+
+  background-color: #222;
   background-image: var(--img);
-  background-size: cover;
   background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.hs::before {
+/* Dark overlay for text visibility */
+.hslider .hs::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
   background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.55),
-    rgba(0, 0, 0, 0.10)
+    90deg,
+    rgba(0, 0, 0, 0.60),
+    rgba(0, 0, 0, 0.25)
+  );
+
+  pointer-events: none;
+}
+
+/* Active slide */
+.hslider .hs.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* Slide content */
+.hslider .hs-in {
+  position: relative;
+  z-index: 2;
+  width: min(760px, 100%);
+  margin: auto;
+}
+
+/* Main heading */
+.hslider .hs h1,
+.hslider .hs h2 {
+  margin: 12px 0 0;
+  color: #fff;
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+/* Tagline */
+.hslider .pill {
+  display: inline-block;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  border-radius: 30px;
+}
+
+/* Previous and next buttons */
+.hslider .hs-btn {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 44px;
+  height: 44px;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+
+  transition: background 0.3s ease;
+}
+
+.hslider .hs-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.hslider .hs-btn.prev {
+  left: 22px;
+}
+
+.hslider .hs-btn.next {
+  right: 22px;
+}
+
+/* Slider dots */
+.hslider .hs-dots {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.hslider .hs-dots button {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.hslider .hs-dots button.on {
+  background: #fff;
+  transform: scale(1.3);
+}
+
+/* First slide without an image */
+.hslider .hs.brain {
+  background-image: linear-gradient(
+    135deg,
+    #333,
+    #555
   );
 }
+
+/* Mobile responsive design */
 @media (max-width: 600px) {
-  .hslider { min-height: 360px; height: 52vh; }
-  .hslider .hs { padding: 35px 58px 90px; }
-  .hslider .hs-btn { width: 36px; height: 36px; font-size: 26px; }
-  .hslider .hs-btn.prev { left: 10px; }
-  .hslider .hs-btn.next { right: 10px; }
+
+  .hslider {
+    min-height: 360px;
+    height: 52vh;
+  }
+
+  .hslider .hs {
+    padding: 35px 58px 90px;
+  }
+
+  .hslider .hs h1,
+  .hslider .hs h2 {
+    font-size: clamp(30px, 8vw, 42px);
+  }
+
+  .hslider .hs-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 25px;
+  }
+
+  .hslider .hs-btn.prev {
+    left: 10px;
+  }
+
+  .hslider .hs-btn.next {
+    right: 10px;
+  }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hslider .hs,
+  .hslider .hs-btn,
+  .hslider .hs-dots button {
+    transition: none;
+  }
 }
