@@ -127,14 +127,7 @@ h2 { margin:18px 0 0; font-size:clamp(34px,5vw,51px); line-height:1.03; letter-s
 .crafted{display:flex;align-items:center;gap:6px}.crafted i{width:7px;height:7px;border-radius:50%;display:inline-block}
 .grain-page { display:none; }
 ::selection{background:var(--peach);color:var(--ink)}
-/**/
-.hslider{position:relative;display:grid;min-height:min(62vh,520px);color:#fff;text-align:center;overflow:hidden}
-.hs-in{max-width:760px}
-.pill{display:inline-block;padding:.35rem 1rem;border:1px solid rgba(255,255,255,.45);border-radius:99px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);font-size:.9rem;margin-bottom:1.2rem}
-.hs-dots{position:absolute;left:0;right:0;bottom:5.4rem;display:flex;justify-content:center;gap:.5rem;z-index:3}
-.hs-dots button{width:11px;height:11px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.5);cursor:pointer}
-.hs-dots button.on{background:#fff;transform:scale(1.25)}
-/**/
+
 
 @media (max-width: 800px) {
   .nav-links { display:none; position:absolute; top:75px; left:20px; right:20px; padding:12px; border-radius:22px; flex-direction:column; align-items:stretch; background:rgba(255,255,255,.9); box-shadow:var(--shadow-soft); }
@@ -153,3 +146,115 @@ h2 { margin:18px 0 0; font-size:clamp(34px,5vw,51px); line-height:1.03; letter-s
   .services-panel{padding:28px 18px;border-radius:28px}.service-card{padding:23px}.contact-panel{padding:55px 20px;border-radius:30px}.contact-panel p{font-size:14px}.footer-links{grid-template-columns:repeat(2,1fr);gap:25px 15px}.footer-bottom{flex-direction:column;align-items:flex-start;margin-top:32px}
 }
 @media (prefers-reduced-motion: reduce) { html{scroll-behavior:auto} *,*::before,*::after{transition:none!important;animation:none!important} }
+
+
+/* Hero slider */
+.hslider {
+  position: relative;
+  display: block;
+  min-height: 420px;
+  height: min(62vh, 520px);
+  color: #fff;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(135deg, #263b58, #526f91 55%, #263b58);
+}
+.hslider .hs {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 110px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .7s ease, visibility .7s ease;
+  background: linear-gradient(135deg, #263b58, #526f91 55%, #263b58);
+}
+.hslider .hs::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--img);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.hslider .hs::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(10,20,35,.72), rgba(10,20,35,.38));
+}
+.hslider .hs.active {
+  opacity: 1;
+  visibility: visible;
+}
+.hslider .hs-in {
+  width: min(760px, 100%);
+  margin: auto;
+}
+.hslider .hs h1,
+.hslider .hs h2 {
+  margin: 12px 0 0;
+  color: #fff;
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 1.08;
+  letter-spacing: -.04em;
+}
+.hslider .pill {
+  color: #fff;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.4);
+}
+.hslider .hs-btn {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0,0,0,.28);
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+}
+.hslider .hs-btn:hover { background: rgba(0,0,0,.55); }
+.hslider .hs-btn.prev { left: 22px; }
+.hslider .hs-btn.next { right: 22px; }
+.hslider .hs-dots {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.hslider .hs-dots button {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  cursor: pointer;
+}
+.hslider .hs-dots button.on { background: #fff; transform: scale(1.25); }
+.hslider .hs.brain::before {
+  background-image: linear-gradient(135deg, #173b63, #347c91 55%, #162c4a);
+}
+@media (max-width: 600px) {
+  .hslider { min-height: 360px; height: 52vh; }
+  .hslider .hs { padding: 35px 58px 90px; }
+  .hslider .hs-btn { width: 36px; height: 36px; font-size: 26px; }
+  .hslider .hs-btn.prev { left: 10px; }
+  .hslider .hs-btn.next { right: 10px; }
+}

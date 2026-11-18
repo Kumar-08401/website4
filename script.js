@@ -1,15 +1,23 @@
+
 // Prism agency landing page interactions
 document.addEventListener("DOMContentLoaded", () => {
-  const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
 
+  // Update copyright year
+  const year = document.getElementById("year");
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  // Mobile navigation menu
   const menuButton = document.querySelector(".menu-toggle");
   const navLinks = document.querySelector(".nav-links");
 
   if (menuButton && navLinks) {
     menuButton.addEventListener("click", () => {
       const isOpen = navLinks.classList.toggle("open");
+
       menuButton.setAttribute("aria-expanded", String(isOpen));
+
       menuButton.innerHTML = isOpen
         ? '<span class="iconify" data-icon="ph:x-bold"></span>'
         : '<span class="iconify" data-icon="ph:list-bold"></span>';
@@ -19,18 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
       link.addEventListener("click", () => {
         navLinks.classList.remove("open");
         menuButton.setAttribute("aria-expanded", "false");
-        menuButton.innerHTML = '<span class="iconify" data-icon="ph:list-bold"></span>';
+
+        menuButton.innerHTML =
+          '<span class="iconify" data-icon="ph:list-bold"></span>';
       });
     });
   }
 
-  // Highlight the navigation item for the section currently in view.
+  // Highlight navigation item for the section in view
   const sections = document.querySelectorAll("main section[id]");
   const links = document.querySelectorAll(".nav-links a");
-  if ("IntersectionObserver" in window && sections.length && links.length) {
+
+  if (
+    "IntersectionObserver" in window &&
+    sections.length &&
+    links.length
+  ) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+
         links.forEach((link) => {
           link.classList.toggle(
             "active",
@@ -38,46 +54,122 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         });
       });
-    }, { rootMargin: "-35% 0px -55% 0px" });
+    }, {
+      rootMargin: "-35% 0px -55% 0px"
+    });
 
     sections.forEach((section) => observer.observe(section));
   }
+
+  // HERO SLIDER
+  const slider = document.querySelector(".hslider");
+
+  if (slider) {
+    const slides = Array.from(
+      slider.querySelectorAll(".hs")
+    );
+
+    const dotsBox = slider.querySelector(".hs-dots");
+    const nextButton = slider.querySelector(".hs-btn.next");
+    const prevButton = slider.querySelector(".hs-btn.prev");
+
+    if (
+      slides.length &&
+      dotsBox &&
+      nextButton &&
+      prevButton
+    ) {
+      let current = 0;
+      let timer = null;
+
+      // Create slider dots
+      const dots = slides.map((_, index) => {
+        const dot = document.createElement("button");
+
+        dot.type = "button";
+        dot.setAttribute(
+          "aria-label",
+          `Go to slide ${index + 1}`
+        );
+
+        dot.addEventListener("click", () => {
+          showSlide(index);
+          startAutoplay();
+        });
+
+        dotsBox.appendChild(dot);
+
+        return dot;
+      });
+
+      // Display selected slide
+      function showSlide(index) {
+        current = (index + slides.length) % slides.length;
+
+        slides.forEach((slide, i) => {
+          const active = i === current;
+
+          slide.classList.toggle("active", active);
+
+          slide.setAttribute(
+            "aria-hidden",
+            String(!active)
+          );
+
+          dots[i].classList.toggle("on", active);
+
+          dots[i].setAttribute(
+            "aria-current",
+            active ? "true" : "false"
+          );
+        });
+      }
+
+      // Automatic slide movement
+      function startAutoplay() {
+        window.clearInterval(timer);
+
+        if (
+          !window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+          ).matches
+        ) {
+          timer = window.setInterval(() => {
+            showSlide(current + 1);
+          }, 5500);
+        }
+      }
+
+      // Next button
+      nextButton.addEventListener("click", () => {
+        showSlide(current + 1);
+        startAutoplay();
+      });
+
+      // Previous button
+      prevButton.addEventListener("click", () => {
+        showSlide(current - 1);
+        startAutoplay();
+      });
+
+      // Pause slider when mouse is over it
+      slider.addEventListener("mouseenter", () => {
+        window.clearInterval(timer);
+      });
+
+      slider.addEventListener("mouseleave", startAutoplay);
+
+      // Pause slider when keyboard focus is inside
+      slider.addEventListener("focusin", () => {
+        window.clearInterval(timer);
+      });
+
+      slider.addEventListener("focusout", startAutoplay);
+
+      // Initialize slider
+      showSlide(0);
+      startAutoplay();
+    }
+  }
+
 });
-
-
-///
-  
-
-
-  /* Hero slider */
-  (function () {
-    const slides = $$('.hs'); if (!slides.length) return;
-    const box = $('.hs-dots'); let i = 0, timer;
-    slides.forEach((_, n) => {
-      const d = document.createElement('button');
-      d.setAttribute('aria-label', 'Go to slide ' + (n + 1));
-      d.onclick = () => { go(n); play(); };
-      box.appendChild(d);
-    });
-    const dots = [...box.children];
-    function go(n) {
-      slides[i].classList.remove('active'); dots[i].classList.remove('on');
-      i = (n + slides.length) % slides.length;
-      slides[i].classList.add('active'); dots[i].classList.add('on');
-    }
-    function play() {
-      clearInterval(timer);
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(() => go(i + 1), 5500);
-    }
-    $('.hs-btn.next').onclick = () => { go(i + 1); play(); };
-    $('.hs-btn.prev').onclick = () => { go(i - 1); play(); };
-    const hero = $('.hslider');
-    hero.addEventListener('mouseenter', () => clearInterval(timer));
-    hero.addEventListener('mouseleave', play);
-    go(0); play();
-  })();
-
-  
- 
-
-////
