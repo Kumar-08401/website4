@@ -43,3 +43,41 @@ document.addEventListener("DOMContentLoaded", () => {
     sections.forEach((section) => observer.observe(section));
   }
 });
+
+
+///
+  
+
+
+  /* Hero slider */
+  (function () {
+    const slides = $$('.hs'); if (!slides.length) return;
+    const box = $('.hs-dots'); let i = 0, timer;
+    slides.forEach((_, n) => {
+      const d = document.createElement('button');
+      d.setAttribute('aria-label', 'Go to slide ' + (n + 1));
+      d.onclick = () => { go(n); play(); };
+      box.appendChild(d);
+    });
+    const dots = [...box.children];
+    function go(n) {
+      slides[i].classList.remove('active'); dots[i].classList.remove('on');
+      i = (n + slides.length) % slides.length;
+      slides[i].classList.add('active'); dots[i].classList.add('on');
+    }
+    function play() {
+      clearInterval(timer);
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(() => go(i + 1), 5500);
+    }
+    $('.hs-btn.next').onclick = () => { go(i + 1); play(); };
+    $('.hs-btn.prev').onclick = () => { go(i - 1); play(); };
+    const hero = $('.hslider');
+    hero.addEventListener('mouseenter', () => clearInterval(timer));
+    hero.addEventListener('mouseleave', play);
+    go(0); play();
+  })();
+
+  
+ 
+
+////
