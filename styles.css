@@ -320,6 +320,12 @@ h2 { margin:18px 0 0; font-size:clamp(34px,5vw,51px); line-height:1.03; letter-s
 }
 
 /* ===== Stat cards overlapping the hero ===== */
+/* .kpi-wrap{position:relative;z-index:2;margin-top:-4.5rem;padding:0 4%}
+.kpis{max-width:2000px;margin-inline:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:6px;background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,.15)}
+.kpi{color:#fff;text-align:center;padding:1.2rem .4rem;border-radius:10px}
+.kpi b{display:block;font:700 1.9rem var(--serif)}
+.kpi span{font-size:.8rem}
+.k1{background:#6f86f0}.k2{background:#2fb0e4}.k3{background:#07a3b8}.k4{background:#8b6df0}.k5{background:#1fc8a4} */
 
 /* Transparent KPI cards */
 
@@ -347,39 +353,24 @@ h2 { margin:18px 0 0; font-size:clamp(34px,5vw,51px); line-height:1.03; letter-s
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
-.kpi {
-  color: #fff;
-  text-align: center;
-  padding: 1.2rem .4rem;
-  border-radius: 10px;
-  background: transparent;
+
+/* Gold KPI text */
+
+.kpi-wrap .kpi b {
+    color: #D4AF37 !important;
+    font-weight: 800;
 }
 
-.kpi b {
-  display: block;
-  font: 700 1.9rem var(--serif);
-  color: #fff;
+.kpi-wrap .kpi span {
+    color: #D4AF37 !important;
+    font-weight: 600;
 }
 
-.kpi span {
-  font-size: .8rem;
-  color: #fff;
+/* Optional premium gold effect */
+.kpi-wrap .kpi b {
+    text-shadow: 0 1px 5px rgba(212, 175, 55, 0.2);
 }
 
-/* Remove individual card colours */
-.k1, .k2, .k3, .k4, .k5 {
-  background: transparent;
-}
-
-@media (max-width: 768px) {
-  .kpis {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .kpi:last-child {
-    grid-column: span 2;
-  }
-}
 
 /* Mobile responsive design */
 @media (max-width: 600px) {
