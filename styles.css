@@ -410,18 +410,18 @@ h2 { margin:18px 0 0; font-size:clamp(34px,5vw,51px); line-height:1.03; letter-s
 
 /***about**/
 #contact .about-slide {
-    text-align: left !important;
+    /* text-align: left !important; */
     align-items: flex-start;
     justify-content: flex-start;
 }
 
-#contact .about-slide h2 {
-    text-align: left !important;
+#contact .about-slide h3 {
+    /* text-align: left !important; */
     width: 100%;
 }
 
 #contact .about-slide p {
-    text-align: left !important;
+    /* text-align: left !important; */
     width: 100%;
     line-height: 1.8;
     margin: 0;
