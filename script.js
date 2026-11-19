@@ -252,7 +252,7 @@ const kpiObserver = new IntersectionObserver((entries, observer) => {
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           aboutTimer = window.setInterval(() => {
             showAboutSlide(currentAboutSlide + 1);
-          }, 3000);
+          }, 5000);
         }
       }
 
