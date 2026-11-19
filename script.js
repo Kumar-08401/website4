@@ -220,47 +220,57 @@ const kpiObserver = new IntersectionObserver((entries, observer) => {
 }
 
 
-/***about* */
-document.addEventListener("DOMContentLoaded", function () {
+// ABOUT US SLIDER
+  const aboutSlider = document.querySelector(".about-slider");
 
-  const slides = document.querySelectorAll(".about-slide");
-  const dots = document.querySelectorAll(".about-dot");
+  if (aboutSlider) {
+    const aboutSlides = Array.from(aboutSlider.querySelectorAll(".about-slide"));
+    const aboutDots = Array.from(aboutSlider.querySelectorAll(".about-dot"));
 
-  if (!slides.length || !dots.length) return;
+    if (aboutSlides.length && aboutDots.length) {
+      let currentAboutSlide = 0;
+      let aboutTimer = null;
 
-  let currentSlide = 0;
-  let slideInterval;
+      function showAboutSlide(index) {
+        currentAboutSlide = (index + aboutSlides.length) % aboutSlides.length;
 
-  function showSlide(index) {
-    slides[currentSlide].classList.remove("active");
-    dots[currentSlide].classList.remove("active");
+        aboutSlides.forEach((slide, i) => {
+          const active = i === currentAboutSlide;
+          slide.classList.toggle("active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+        });
 
-    currentSlide = index;
+        aboutDots.forEach((dot, i) => {
+          const active = i === currentAboutSlide;
+          dot.classList.toggle("active", active);
+          dot.setAttribute("aria-current", active ? "true" : "false");
+        });
+      }
 
-    slides[currentSlide].classList.add("active");
-    dots[currentSlide].classList.add("active");
+      function startAboutSlider() {
+        window.clearInterval(aboutTimer);
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          aboutTimer = window.setInterval(() => {
+            showAboutSlide(currentAboutSlide + 1);
+          }, 3000);
+        }
+      }
+
+      aboutDots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          showAboutSlide(index);
+          startAboutSlider();
+        });
+      });
+
+      aboutSlider.addEventListener("mouseenter", () => window.clearInterval(aboutTimer));
+      aboutSlider.addEventListener("mouseleave", startAboutSlider);
+      aboutSlider.addEventListener("focusin", () => window.clearInterval(aboutTimer));
+      aboutSlider.addEventListener("focusout", startAboutSlider);
+
+      showAboutSlide(0);
+      startAboutSlider();
+    }
   }
-
-  function nextSlide() {
-    const next = (currentSlide + 1) % slides.length;
-    showSlide(next);
-  }
-
-  function startSlider() {
-    clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 3000);
-  }
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", function () {
-      showSlide(index);
-      startSlider();
-    });
-  });
-
-  startSlider();
-
-});
-/**about** */
 
 });
