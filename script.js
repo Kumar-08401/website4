@@ -220,47 +220,8 @@ const kpiObserver = new IntersectionObserver((entries, observer) => {
 }
 
 
-/***about* */
-document.addEventListener("DOMContentLoaded", function () {
+// The About section currently has one static slide, so no slider script is needed.
 
-  const slides = document.querySelectorAll(".about-slide");
-  const dots = document.querySelectorAll(".about-dot");
 
-  if (!slides.length || !dots.length) return;
-
-  let currentSlide = 0;
-  let slideInterval;
-
-  function showSlide(index) {
-    slides[currentSlide].classList.remove("active");
-    dots[currentSlide].classList.remove("active");
-
-    currentSlide = index;
-
-    slides[currentSlide].classList.add("active");
-    dots[currentSlide].classList.add("active");
-  }
-
-  function nextSlide() {
-    const next = (currentSlide + 1) % slides.length;
-    showSlide(next);
-  }
-
-  function startSlider() {
-    clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 3000);
-  }
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", function () {
-      showSlide(index);
-      startSlider();
-    });
-  });
-
-  startSlider();
-
-});
-/**about** */
 
 });
